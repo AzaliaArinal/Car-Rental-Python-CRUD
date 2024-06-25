@@ -13,21 +13,21 @@ cars_table = [
       'brand' : 'FIAT  ',
       'type' :'FIAT 500',
       'price' : 500000,
-      'status' : 'TERSEDIA'
+      'status' : 'AVAILABLE'
    },
    {
       'plate_number' : 'L 21 C',
       'brand' : 'TESLA',
       'type' :'CYBERTRUCK',
       'price' : 1000000,
-      'status' : 'TERSEDIA'
+      'status' : 'AVAILABLE'
    },
    {
       'plate_number' : 'L 98 E',
       'brand' : 'PEUGEOT',
       'type' :'205 GTI',
       'price' : 750000,
-      'status' : 'TERSEDIA'
+      'status' : 'AVAILABLE'
    }
 ]
 
@@ -287,7 +287,7 @@ def rent_transaction():
    while True:
       plate_numb = input("Enter car's plate number: ")
       i = validate_car_id(plate_numb)
-      if i and i['status'] == 'TERSEDIA':
+      if i and i['status'] == 'AVAILABLE':
          break
       else:
          print("Car ID or car is not available. Try again")
@@ -393,6 +393,8 @@ def return_transaction():
       car = validate_car_id(transaction['plate_number'])
       car['status'] = 'AVAILABLE'
 
+      transaction_table[:] = [t for t in transaction_table if t['rent_id'] != rent_id]
+
       print ("Return transaction added")
    else:
       print("Cancel transaction")
@@ -405,7 +407,7 @@ def show_transaction_table():
    if len(transaction_table) == 0:
       print("\nThere is no transaction data\n")
    else:
-      print("==========TABEL DATA CUSTOMER==========\n")
+      print("========== TRANSACTION TABLE ==========\n")
       print('|Rent ID\t| Plate Number \t| Customer ID \t| Start Date \t| End Date \t| Days  | Late Fee | Total Amount')
       for i in range(len(transaction_table)):
          print(f'| {transaction_table[i]['rent_id']} \t| {transaction_table[i]['plate_number']} \t| {transaction_table[i]['customer_id']} \t| {transaction_table[i]['start_rent_count']}\t| {transaction_table[i]['end_rent_count']}\t| {transaction_table[i]['rent_days_count']}\t| {transaction_table[i]['late_fee']}\t\t| {transaction_table[i]['total']}')
