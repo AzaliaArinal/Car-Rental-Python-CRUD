@@ -58,7 +58,7 @@ customer_table = [
    }
 ]
 
-tabel_transaksi= []
+transaction_table= []
 
 # /==================== VALIDATION ====================/
 def validate_car_id(plate_numb):
@@ -78,7 +78,7 @@ def validate_customer_id(customer_id):
 
 
 def validate_rent_id(rent_id):
-   for transaction in tabel_transaksi:
+   for transaction in transaction_table:
       if transaction['rent_id'] == rent_id:
          return transaction
    return None
@@ -339,7 +339,7 @@ def rent_transaction():
          'total' : total_amount,
          'late_fee' : 0
       }
-      tabel_transaksi.append(transaction)
+      transaction_table.append(transaction)
       print("Rent transaction added")
    else:
       print("Cancel transaction")
@@ -402,13 +402,13 @@ def return_transaction():
    
 # /==================== SHOW TABLES ====================/
 def show_transaction_table():
-   if len(tabel_transaksi) == 0:
+   if len(transaction_table) == 0:
       print("\nThere is no transaction data\n")
    else:
       print("==========TABEL DATA CUSTOMER==========\n")
       print('|Rent ID\t| Plate Number \t| Customer ID \t| Start Date \t| End Date \t| Days  | Late Fee | Total Amount')
-      for i in range(len(tabel_transaksi)):
-         print(f'| {tabel_transaksi[i]['rent_id']} \t| {tabel_transaksi[i]['plate_number']} \t| {tabel_transaksi[i]['customer_id']} \t| {tabel_transaksi[i]['start_rent_count']}\t| {tabel_transaksi[i]['end_rent_count']}\t| {tabel_transaksi[i]['rent_days_count']}\t| {tabel_transaksi[i]['late_fee']}\t\t| {tabel_transaksi[i]['total']}')
+      for i in range(len(transaction_table)):
+         print(f'| {transaction_table[i]['rent_id']} \t| {transaction_table[i]['plate_number']} \t| {transaction_table[i]['customer_id']} \t| {transaction_table[i]['start_rent_count']}\t| {transaction_table[i]['end_rent_count']}\t| {transaction_table[i]['rent_days_count']}\t| {transaction_table[i]['late_fee']}\t\t| {transaction_table[i]['total']}')
 
 
 
