@@ -1,60 +1,55 @@
 # Python CRUD Application for Car Rental's.
 
-A comprehensive Python application for managing [Data Entity] data with Create, Read, Update, and Delete (CRUD) operations.
+This project is a command-line application built in Python for managing a car rental system. It provides essential CRUD (Create, Read, Update, Delete) functionalities for cars, customers, and rentals, making it ideal for small to medium-sized car rental businesses.
 
 ## Business Understanding
 
-This project caters to the rental's industry, specifically addressing the need to manage transaction and storing data efficiently. Managing transaction and storing data plays a crucial role in [Explain the importance of data entity in business processes].
+This Python-based car rental management system is designed for small to medium-sized businesses in the automotive rental industry, offering tools for owners and managers to streamline operations, optimize inventory, and analyze business performance. It enables rental agents to efficiently handle reservations, manage rentals, and provide excellent customer service, while providing administrative staff with simplified processes for record-keeping, and payment processing.
 
 **Benefits:**
 
-* Improved data accuracy and consistency
-* Streamlined data management processes
-* Enhanced decision-making through readily available data
-* ... (List additional benefits relevant to the business)
+Efficiency and Organization:
+
+Centralizes vehicle, customer, and rental transaction data in a structured database.
+Reduces manual paperwork and minimizes errors, enhancing operational efficiency.
+Improved Customer Service:
+
+Enables quick access to customer and vehicle information for rental agents.
+Facilitates faster service, personalized interactions, and increased customer satisfaction.
+Financial Management:
+
+Tracks rental transactions and vehicle availability for better financial planning.
+Analyzes rental trends, identifies popular vehicles, and optimizes pricing strategies for profitability.
+Scalability:
+
+Adapts to business growth with features like reporting tools and online booking system integration.
+Allows easy customization and expansion to meet evolving business needs with its modular design.
 
 **Target Users:**
 
-This application is designed for [Target Users] (e.g., sales representatives, inventory managers, customer support agents) within the organization to facilitate their [Tasks/Activities] related to [Data Entity].
+This Python-based car rental management system streamlines operations for small to medium-sized businesses, facilitating efficient oversight, inventory management, customer service, and administrative tasks like record-keeping, payments, and reporting.
 
 ## Features
 
 * **Create:**
-    * Add new [Data Entity] entries with essential details like [List relevant fields].
-    * Implement validation rules to ensure data integrity (if applicable, e.g., unique identifiers, data type checks).
+    * Add new rent transaction, return transaction, cars and customers to the system.
 * **Read:**
-    * Search and retrieve specific [Data Entity] records by applying filters based on [Searchable fields].
-    * Display comprehensive information for each [Data Entity] in a user-friendly format.
-    * Integrate pagination and sorting capabilities for large datasets (if applicable).
+    * View details of cars, customers, and transaction.
 * **Update:**
-    * Modify existing [Data Entity] data to reflect changes in [Attributes/Properties].
-    * Provide clear confirmation or error messages based on update success or failure.
+    * Modify information of existing cars and customers.
 * **Delete:**
-    * Allow for the removal of unwanted [Data Entity] records with appropriate authorization checks (if applicable).
-    * Implement soft delete functionality to prevent permanent data loss (optional, depending on business needs).
-    * Consider offering data archiving capabilities (optional).
-* **Security:**
-    * Implement user authentication and authorization mechanisms (if sensitive data is involved) to control access to different CRUD operations.
-    * ... (Specify additional security features as needed)
-* **Reporting:**
-    * Generate reports or summaries based on [Data Entity] data to support [Business Functions] (optional).
-    * Export data in various formats (e.g., CSV, Excel) for further analysis (optional).
+    * Remove cars and customers from the system.
 
 ## Installation
 
 1. **Prerequisites:**
-    * Python version (specify the required version)
-    * Additional dependencies (list any required packages)
+    * Python version 3.12.3
 
 2. **Installation:**
     ```bash
-    git clone [https://github.com/](https://github.com/)<your-username>/<your-repo-name>.git
-    cd <your-repo-name>
-    pip install -r requirements.txt  # If using a requirements.txt file
+    git clone [https://github.com/]https://github.com/AzaliaArinal/Car-Rental-Python-CRUD.git
+    cd Car-Rental-Python-CRUD
     ```
-
-3. **Database Setup (if applicable):**
-    Follow specific instructions for configuring your database connection, aligning with the business's chosen database management system.
 
 ## Usage
 
@@ -63,18 +58,29 @@ This application is designed for [Target Users] (e.g., sales representatives, in
     python main.py
     ```
 
-2. **CRUD Operations:**
-    * **Create:** Add a new [Data Entity] record, for example, a new customer in a customer management system, providing details like name, contact information, and preferences.
-    * **Read:** Search and retrieve customer information by name, ID, or other relevant criteria.
-    * **Update:** Modify customer details, such as updating their address or contact details.
-    * **Delete:** Remove a customer record from the system (with appropriate authorization, if applicable).
+2. **Functionality**
+    * **Managing Cars:** Add new cars with details such as car's plate number, make, type, transmition, availability and rental price. Update existing car information like availability or rental price. Delete cars that are no longer in the fleet.
+    * **Managing Customers:** Add new customers with details including customers ID, name, contact information, and address. Update customer information such as contact details. Delete customers who no longer have active rentals.
+    * **Managing Transaction:** Add new transaction with details including transaction ID, car's plate number, customer ID, start rent date, end rent date, late returning date.
 
 ## Data Model
-This project utilizes a [Data Structure] (e.g., relational database, JSON documents) to represent [Data Entity] data. The following fields are typically stored:
-   * [Field 1]: (Data type) - Description of the field's purpose in the business context.
-   * [Field 2]: (Data type) - Description of the field's purpose in the business context.
-   * ... (List all relevant fields)
+cars Table:
+
+Fields: plate_number (Primary Key), make(STR), type(STR), transmition(STR), rental_price(INT), availability(STR)
+Stores information about each car available for rent.
+
+
+customers Table:
+
+Fields: customer_id (Primary Key), name (STR), address(STR), phone(INT), contact information(INT) 
+Stores details of each customer who rents cars.
+
+
+rentals Table:
+
+Fields: rent_id (Primary Key), plate_number(STR), customer_id(STR), rental_start_date(DATE), rental_end_date(DATE), total_cost(INT), late_fee(INT)
+Tracks rental transactions, including which customer rented which car for specific periods and associated costs.
 
 ## Contributing
-We welcome contributions to this project! Please feel free to open a pull request, sent to [your_email] or submit an issue if you encounter any problems or have suggestions for improvements.
+We welcome contributions to this project! Please feel free to open a pull request, sent to [azaliarinal@gmail.com] or submit an issue if you encounter any problems or have suggestions for improvements.
 
