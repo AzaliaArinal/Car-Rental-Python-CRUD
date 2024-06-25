@@ -1,4 +1,4 @@
-# Python CRUD Application for Car Rental.
+# Python CRUD Application for Car Rental
 
 This project is a command-line application made in Python for managing a car rental system. It provides essential CRUD (Create, Read, Update, Delete) functionalities for cars, customers, and transaction.
 
