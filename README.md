@@ -1,33 +1,31 @@
-# Python CRUD Application for Car Rental's.
+# Python CRUD Application for Car Rental.
 
-This project is a command-line application built in Python for managing a car rental system. It provides essential CRUD (Create, Read, Update, Delete) functionalities for cars, customers, and rentals, making it ideal for small to medium-sized car rental businesses.
+This project is a command-line application made in Python for managing a car rental system. It provides essential CRUD (Create, Read, Update, Delete) functionalities for cars, customers, and transaction.
 
 ## Business Understanding
 
-This Python-based car rental management system is designed for small to medium-sized businesses in the automotive rental industry, offering tools for owners and managers to streamline operations, optimize inventory, and analyze business performance. It enables rental agents to efficiently handle reservations, manage rentals, and provide excellent customer service, while providing administrative staff with simplified processes for record-keeping, and payment processing.
+This Python-based car rental system is designed for small to medium-sized businesses in the automotive rental industry, offering tools for owners and managers to streamline operations, optimize inventory and transaction. It enables rental agents to efficiently handle rent transaction, while providing administrative system with simplified processes for record-keeping, and payment processing.
 
 **Benefits:**
 
-Efficiency and Organization:
+* Efficiency and Organization:
 
 Centralizes vehicle, customer, and rental transaction data in a structured database.
 Reduces manual paperwork and minimizes errors, enhancing operational efficiency.
-Improved Customer Service:
+
+* Improved Customer Service:
 
 Enables quick access to customer and vehicle information for rental agents.
 Facilitates faster service, personalized interactions, and increased customer satisfaction.
-Financial Management:
+
+* Financial Management:
 
 Tracks rental transactions and vehicle availability for better financial planning.
-Analyzes rental trends, identifies popular vehicles, and optimizes pricing strategies for profitability.
-Scalability:
 
-Adapts to business growth with features like reporting tools and online booking system integration.
-Allows easy customization and expansion to meet evolving business needs with its modular design.
 
 **Target Users:**
 
-This Python-based car rental management system streamlines operations for small to medium-sized businesses, facilitating efficient oversight, inventory management, customer service, and administrative tasks like record-keeping, payments, and reporting.
+This Python-based car rental management system streamlines operations for small to medium-sized businesses, facilitating efficient oversight, inventory management, and administrative tasks like record-keeping, and payments.
 
 ## Features
 
@@ -59,14 +57,15 @@ This Python-based car rental management system streamlines operations for small 
     ```
 
 2. **Functionality**
-    * **Managing Cars:** Add new cars with details such as car's plate number, make, type, transmition, availability and rental price. Update existing car information like availability or rental price. Delete cars that are no longer in the fleet.
+    * **Managing Cars:** Add new cars with details such as car's plate number, make, type, availability and rental price. Update existing car information like availability or rental price. Delete cars that are no longer in the fleet.
     * **Managing Customers:** Add new customers with details including customers ID, name, contact information, and address. Update customer information such as contact details. Delete customers who no longer have active rentals.
     * **Managing Transaction:** Add new transaction with details including transaction ID, car's plate number, customer ID, start rent date, end rent date, late returning date.
+
 
 ## Data Model
 cars Table:
 
-Fields: plate_number (Primary Key), make(STR), type(STR), transmition(STR), rental_price(INT), availability(STR)
+Fields: plate_number (Primary Key), make(STR), type(STR), rental_price(INT), availability(STR)
 Stores information about each car available for rent.
 
 
@@ -80,6 +79,7 @@ rentals Table:
 
 Fields: rent_id (Primary Key), plate_number(STR), customer_id(STR), rental_start_date(DATE), rental_end_date(DATE), total_cost(INT), late_fee(INT)
 Tracks rental transactions, including which customer rented which car for specific periods and associated costs.
+
 
 ## Contributing
 We welcome contributions to this project! Please feel free to open a pull request, sent to [azaliarinal@gmail.com] or submit an issue if you encounter any problems or have suggestions for improvements.
