@@ -6,61 +6,55 @@
 from datetime import datetime
 
 # /==================== DATA ====================/
-userpass = {
-   'admin' : 'admin'
-}
 
-tabel_mobil = [
+cars_table = [
    {
-      'no_polisi' : 'L 1 A',
-      'Merek' : 'FIAT  ',
-      'Tipe' :'FIAT 500',
-      'Transmisi' : 'MT',
-      'Harga' : 500000,
+      'plate_number' : 'L 1 A',
+      'brand' : 'FIAT  ',
+      'type' :'FIAT 500',
+      'price' : 500000,
       'status' : 'TERSEDIA'
    },
    {
-      'no_polisi' : 'L 21 C',
-      'Merek' : 'TESLA',
-      'Tipe' :'CYBERTRUCK',
-      'Transmisi' : 'AT',
-      'Harga' : 1000000,
+      'plate_number' : 'L 21 C',
+      'brand' : 'TESLA',
+      'type' :'CYBERTRUCK',
+      'price' : 1000000,
       'status' : 'TERSEDIA'
    },
    {
-      'no_polisi' : 'L 98 E',
-      'Merek' : 'PEUGEOT',
-      'Tipe' :'205 GTI',
-      'Transmisi' : 'MT',
-      'Harga' : 750000,
+      'plate_number' : 'L 98 E',
+      'brand' : 'PEUGEOT',
+      'type' :'205 GTI',
+      'price' : 750000,
       'status' : 'TERSEDIA'
    }
 ]
 
-tabel_customer = [
+customer_table = [
    {
       'customer_id' : 'CT0001',
-      'Nama' : 'MISS ANYA FORGER',
-      'Alamat' : 'SURABAYA',
-      'no_hp' : 6282188080698,
-      'no_KTP' : 123456778,
-      'no_SIM' : 101010
+      'name' : 'MISS ANYA FORGER',
+      'address' : 'SURABAYA',
+      'phone' : 6282188080698,
+      'KTP' : 123456778,
+      'SIM' : 101010
    },
    {
       'customer_id' : 'CT0002',
-      'Nama' : 'TAKI TACHIBANA',
-      'Alamat' : 'MANADO',
-      'no_hp' : 6282291173144,
-      'no_KTP' : 123456788,
-      'no_SIM' : 202020
+      'name' : 'TAKI TACHIBANA',
+      'address' : 'MANADO',
+      'phone' : 6282291173144,
+      'KTP' : 123456788,
+      'SIM' : 202020
    },
    {
       'customer_id' : 'CT0003',
-      'Nama' : 'NICHOLAS SAPUTRA',
-      'Alamat' : 'TANGKAHAN',
-      'no_hp' : 6282122911742,
-      'no_KTP' : 122345678,
-      'no_SIM' : 303030
+      'name' : 'NICHOLAS SAPUTRA',
+      'address' : 'TANGKAHAN',
+      'phone' : 6282122911742,
+      'KTP' : 122345678,
+      'SIM' : 303030
    }
 ]
 
@@ -68,15 +62,15 @@ tabel_transaksi= []
 
 # /==================== VALIDATION ====================/
 def validate_car_id(plate_numb):
-   for i in tabel_mobil:
-      if i['no_polisi'] == plate_numb:
+   for i in cars_table:
+      if i['plate_number'] == plate_numb:
          return i
    return None
 
 
 
 def validate_customer_id(customer_id):
-   for i in tabel_customer:
+   for i in customer_table:
       if i['customer_id'] == customer_id:
          return True
    return False
@@ -100,28 +94,148 @@ def validate_date(input_date):
 
 
 
+def is_int(value):
+   try:
+      int(value)
+      return True
+   except ValueError:
+      return False
+
+
+
+
+# /==================== CREATE ====================/
+
+def create_customer(customers):
+   while True:
+      id_customer = input("Enter ID customer: ")
+      if any(customer['customer_id'] == id_customer for customer in customer_table):
+         print("ID customer already exists. Please enter a different ID")
+         continue
+
+      name = input("Enter Customer name: ")
+      address = input("Enter Address: ")
+      phone_number = input("Enter Phone number: ")
+      if not is_int(phone_number):
+            print("Phone number must be an integer. Try again")
+            continue
+      
+      id_card_number = input("Enter ID card number: ")
+      if not is_int(id_card_number):
+            print("ID card number must be an integer. Try again")
+            continue
+
+      drivers_license = input("Enter Driver's license number: ")
+      if not is_int(drivers_license):
+            print("Driver's license number must be an integer. Try again")
+            continue
+      
+      if any(
+            customer['name'] == name and
+            customer['address'] == address and
+            customer['phone'] == int(phone_number) and
+            customer['KTP'] == int(id_card_number) and
+            int(customer['SIM']) == int(drivers_license)
+            for customer in customer_table
+        ):
+            print("Customer with the same details already exists.")
+            continue
+      
+      cust_confirm = input("SUBMIT? Y/N: ")
+      if cust_confirm == 'Y' or 'y':
+         customer_table.append({
+            'customer_id' : id_customer,
+            'name' : name,
+            'address' : address,
+            'phone' : phone_number,
+            'KTP' : id_card_number,
+            'SIM' : drivers_license
+         })
+         print("Customer added successfully")
+         break
+      elif cust_confirm == 'N' or 'n':
+         print("Back to Main Menu")
+         break
+      else:
+         print("Invalid input")
+
+
+def create_car(cars):
+   while True:
+      plate_numb = input("Enter Car's Plate Number: ")
+      if any(cars['plate_number'] == plate_numb for cars in cars_table):
+         print("Car already exists. Please enter a different number")
+         continue
+
+      brand = input("Enter brand: ")
+      car_type = input("Enter the type: ")
+      car_price = input("Enter rent price per day: ")
+      if not is_int(car_price):
+            print("Phone number must be an integer. Try again")
+            continue
+      availability = input("AVAILABLE / NOT AVAILABLE: ")
+      if availability not in ['AVAILABLE', 'available', 'NOT AVAILABLE', 'not available']:
+         print("Invalid input. Try again")
+         continue
+      
+      if any(
+            cars['brand'] == brand and
+            cars['type'] == car_type and
+            cars['price'] == int(car_price) and
+            cars['status'] == availability
+            for cars in cars_table
+        ):
+            print("Car with the same details already exists.")
+            continue
+      
+      confirm_car = input("SUBMIT? Y/N: ")
+      if confirm_car == 'Y' or 'y':
+         cars_table.append({
+            'plate_number' : plate_numb,
+            'brand' : brand,
+            'type' : car_type,
+            'price' : car_price,
+            'status' : availability
+         })
+         print("Car added successfully")
+         break
+      elif confirm_car == 'N' or 'n':
+         print("Back to Main Menu")
+         break
+      else:
+         print("Invalid input")
+
+
+
+
+
+
+
+
+
+
 # /==================== READ ====================/
 
-def cari_customer(cari_nama_cust):
-    hasil_cari_nama = [i for i in tabel_customer if i['Nama'].lower() == cari_nama_cust.lower()]
-    if not hasil_cari_nama:
-        print("DATA CUSTOMER TIDAK DITEMUKAN:", cari_nama_cust)
+def search_customer(search_by_ID):
+    search_result = [i for i in customer_table if i['name'].lower() == search_by_ID.lower()]
+    if not search_result:
+        print("Customer not found", search_by_ID)
     else:
-        print('ID\t| Nama Customer \t| Alamat \t| No. HP \t\t| No. KTP \t| No. SIM|')
-        for i in hasil_cari_nama:
-            print(f'{i['customer_id']} \t| {i['Nama']} \t| {i['Alamat']} \t| {i['no_hp']}\t\t| {i['no_KTP']} \t| {i['no_SIM']}|')
+      print("| ID Customer \t| Customer Name \t| Address \t| Phone Number \t\t| ID Number \t| Driver's License")
+      for i in range(len(customer_table)):
+         print(f'| {customer_table[i]['customer_id']} \t| {customer_table[i]['name']} \t| {customer_table[i]['address']} \t| {customer_table[i]['phone']} \t| {customer_table[i]['KTP']}\t| {customer_table[i]['SIM']} |')
 
 
 
 
-def cari_mobil(cari_no_polisi):
-    hasil_cari = [i for i in tabel_mobil if i['no_polisi'].lower() == cari_no_polisi.lower()]
-    if not hasil_cari:
-        print("DATA MOBIL TIDAK DITEMUKAN:", cari_no_polisi)
+def search_car(search_by_plate):
+    search_result = [i for i in cars_table if i['plate_number'].lower() == search_by_plate.lower()]
+    if not search_result:
+        print("Car not found", search_by_plate)
     else:
-        print('No.Polisi \t| Merek \t| Tipe \t\t| Transmisi \t| Harga \t| Status  |')
-        for i in hasil_cari:
-            print(f'{i['no_polisi']} \t| {i['Merek']} \t| {i['Tipe']} \t| {i['Transmisi']}\t\t| {i['Harga']} \t| {i['status']}|')
+      print('| Plate Numbers \t| Brand \t| Type \t\t| Price \t| Status  ')
+      for i in range(len(cars_table)):
+         print(f'| {cars_table[i]['plate_number']} \t| {cars_table[i]['brand']} \t| {cars_table[i]['type']} \t| {cars_table[i]['price']} \t| {cars_table[i]['status']}')
 
 
 
@@ -130,39 +244,37 @@ def cari_mobil(cari_no_polisi):
 
 # /==================== UPDATE ====================/
 
-def update_customer(id_cust, nama_baru=None, alamat_baru=None, hp_baru=None, ktp_baru=None, sim_baru=None):
-    for i in tabel_customer:
-        if i['customer_id'] == id_cust:
-            if nama_baru:
-                i['Nama'] = nama_baru
-            if alamat_baru:
-                i['Alamat'] = alamat_baru
-            if hp_baru:
-                i['no_hp'] = hp_baru
-            if ktp_baru:
-               i['no_KTP'] = ktp_baru
-            if sim_baru:
-                i['no_SIM'] = sim_baru
-            print("DATA CUSTOMER BERHASIL DIUPDATE")
+def update_customer(cust_id, new_name=None, new_address=None, new_phone=None, new_IDcard=None, new_license=None):
+    for i in customer_table:
+        if i['customer_id'] == cust_id:
+            if new_name:
+                i['name'] = new_name
+            if new_address:
+                i['address'] = new_address
+            if new_phone:
+                i['phone'] = new_phone
+            if new_IDcard:
+               i['KTP'] = new_IDcard
+            if new_license:
+                i['SIM'] = new_license
+            print("Data updated")
             return
-    print("CUSTOMER TIDAK DITEMUKAN")
+    print("Customer not found")
 
-def update_mobil(id_mobil, merek_baru=None, tipe_baru=None, transmisi_baru=None, harga_baru=None, status_baru=None):
-    for i in tabel_mobil:
-        if i['no_polisi'] == id_mobil:
-            if merek_baru:
-                i['Merek'] = merek_baru
-            if tipe_baru:
-                i['Tipe'] = tipe_baru
-            if transmisi_baru:
-                i['Transmisi'] = transmisi_baru
-            if harga_baru:
-               i['Harga'] = harga_baru
-            if status_baru:
-                i['status'] = status_baru
-            print("DATA MOBIL BERHASIL DIUPDATE")
+def update_car(plate_numb, new_brand=None, new_type=None, new_price=None, new_status=None):
+    for i in cars_table:
+        if i['plate_number'] == plate_numb:
+            if new_brand:
+                i['brand'] = new_brand
+            if new_type:
+                i['type'] = new_type
+            if new_price:
+               i['price'] = new_price
+            if new_status:
+                i['status'] = new_status
+            print("Data updated")
             return
-    print("MOBIL TIDAK DITEMUKAN")
+    print("Car not found")
 
 
 
@@ -198,7 +310,7 @@ def rent_transaction():
          print("Invalid date format. Try again")
    
    while True:
-      end_date = input("Enter start rent date (YYYY-MM-DD): ")
+      end_date = input("Enter end rent date (YYYY-MM-DD): ")
       if validate_date(end_date):
          end_date = datetime.strptime(end_date, '%Y-%m-%d').date()
          if end_date >= start_date:
@@ -211,7 +323,7 @@ def rent_transaction():
 
    # count rental days and total amount
    rental_days = (end_date - start_date).days + 1
-   total_amount = rental_days * i['Harga']
+   total_amount = rental_days * i['price']
 
    confirm_rent = input("Submit transaction? Y/N: ")
    if confirm_rent == 'Y' or 'y':
@@ -305,233 +417,185 @@ def show_transaction_table():
 # /==================== MENU ====================/
 def menu():
    while True:
-      print("==========MENU UTAMA==========")
-      print("1. TRANSAKSI")
-      print("2. DATA CUSTOMER")
-      print("3. DATA MOBIL")
+      print("========== MAIN MENU ==========")
+      print("1. TRANSACTION")
+      print("2. CUSTOMER DATA")
+      print("3. CAR DATA")
       print("4. LOGOUT")
-      pilihan_menu = input("MASUKKAN PILIHAN MENU: ")
-      if pilihan_menu == '1':
-         transaksi()
-      elif pilihan_menu == '2':
-         data_customer()
-      elif pilihan_menu == '3':
-         data_mobil()
-      elif pilihan_menu == '4':
+      choose_menu = input("Your choice: ")
+      if choose_menu == '1':
+         transaction()
+      elif choose_menu == '2':
+         customer_data()
+      elif choose_menu == '3':
+         car_data()
+      elif choose_menu == '4':
          print("LOGGING OUT")
          exit()
       else:
-         print("MASUKKAN PILIHAN LAGI")
+         print("Invalid input. Try again\n")
 
 
 
 
 
-def transaksi():
+def transaction():
    while True:
-      print("\n==========MENU TRANSAKSI==========")
-      print("1. BUAT TRANSAKSI PINJAM")
-      print("2. BUAT TRANSAKSI KEMBALI")
+      print("\n========== TRANSACTION MENU ==========")
+      print("1. CREATE RENT TRANSACTION")
+      print("2. CREATE RETURN TRANSACTION")
       print("0. BACK TO MAIN MENU")
 
       show_transaction_table()
 
-      pilihan_transaksi = input("MASUKKAN PILIHAN MENU: ")
+      choose_trans = input("Your choice: ")
             
-      if pilihan_transaksi == '1':
-         print("\n==========TRANSAKSI PINJAM==========")
+      if choose_trans == '1':
+         print("\n========== RENT TRANSACTION ==========")
          rent_transaction()
       
-      
-      if pilihan_transaksi == '2':
-         print("\n==========TRANSAKSI KEMBALI==========")
+      if choose_trans == '2':
+         print("\n========== RETURN TRANSACTION ==========")
          return_transaction()
       
-      elif pilihan_transaksi == '0':
+      elif choose_trans == '0':
          menu()
       else:
-         print("MASUKKAN PILIHAN LAGI")
+         print("Invalid input. Try again\n")
    
 
 
 
 
 
-def data_customer():
-   print("==========MENU DATA CUSTOMER==========")
-   print("1. BUAT DATA CUSTOMER BARU")
-   print("2. CARI CUSTOMER")
-   print("3. EDIT DATA CUSTOMER")
-   print("4. DELETE DATA CUSTOMER")
+def customer_data():
+   print("========== CUSTOMER DATA MENU ==========")
+   print("1. ADD NEW CUSTOMER")
+   print("2. SEARCH CUSTOMER BY ID")
+   print("3. EDIT CUSTOMER DATA")
+   print("4. DELETE CUSTOMER DATA")
    print("0. BACK TO MAIN MENU")
-   print("==========TABEL DATA CUSTOMER==========\n")
-   print('|Index\t| ID Customer \t| Nama Customer \t| Alamat \t| No. HP \t\t| No. KTP \t| No. SIM|')
-   for i in range(len(tabel_customer)):
-      print(f'|{i} \t| {tabel_customer[i]['customer_id']} \t| {tabel_customer[i]['Nama']} \t| {tabel_customer[i]['Alamat']} \t| {tabel_customer[i]['no_hp']} \t| {tabel_customer[i]['no_KTP']}\t| {tabel_customer[i]['no_SIM']} |')
-   pilihan_4 = input("MASUKKAN PILIHAN MENU: ")
+   print("\n========== CUSTOMER DATA TABLE ==========\n")
+   print("|Index\t| ID Customer \t| Customer Name \t| Address \t| Phone Number \t\t| ID Number \t| Driver's License")
+   for i in range(len(customer_table)):
+      print(f'|{i} \t| {customer_table[i]['customer_id']} \t| {customer_table[i]['name']} \t| {customer_table[i]['address']} \t| {customer_table[i]['phone']} \t| {customer_table[i]['KTP']}\t| {customer_table[i]['SIM']}')
+   choose_cust = input("Your choice: ")
    
    
-   if pilihan_4 == '1':
-      print("==========BUAT DATA CUSTOMER BARU==========")
-      id_cust = input("ID CUSTOMER: ")
-      nama_cust = input("NAMA CUSTOMER: ")
-      alamat = input("ALAMAT: ")
-      no_hp = input("NO. HP: ")
-      no_ktp = input("NO. KTP: ")
-      no_sim = input("NO. SIM: ")
-      konfirmasi_4 = input("SUBMIT? Y/N: ")
-      if konfirmasi_4 == 'Y' or 'y':
-         tabel_customer.append({
-            'customer_id' : id_cust,
-            'Nama' : nama_cust,
-            'Alamat' : alamat,
-            'no_hp' : no_hp,
-            'no_KTP' : no_ktp,
-            'no_SIM' : no_sim
-         })
-         print("DATA BERHASIL DIINPUT")
-      elif konfirmasi_4 == 'N' or 'n':
-         print("KEMBALI KE MENU UTAMA")
+   if choose_cust == '1':
+      print("========== ADD NEW CUSTOMER ==========")
+      create_customer(customer_table)
+   
+   
+
+   elif choose_cust == '2':
+      print("========== SEARCH CUSTOMER BY ID ==========")
+      search_by_ID = input("Enter customer ID: ")
+      search_customer(search_by_ID)
+   
+
+   
+   elif choose_cust == '3':
+      print("========== EDIT CUSTOMER DATA ==========")
+      cust_id = input("Enter customer's ID: ")
+      new_name = input("Enter new name (ENTER to skip): ")
+      new_address = input("Enter new address (ENTER to skip): ")
+      new_phone = input("Enter new phone number (ENTER to skip): ")
+      new_IDcard = input("Enter new ID card number (ENTER to skip): ")
+      new_license = input("Enter new driver's license number (ENTER to skip): ")
+      confirm_edit_cust = input("\nEDIT DATA CUSTOMER? Y/N: ")
+      if confirm_edit_cust == 'Y' or 'y':
+         update_customer(cust_id, new_name or None, new_address or None, new_phone or None, new_IDcard or None, new_license or None)
+      elif confirm_edit_cust == 'N' or 'n':
+         print("Back to main menu")
       else:
-         print("MASUKKAN PILIHAN LAGI")
-   
-   
-
-   elif pilihan_4 == '2':
-      print("==========CARI DATA CUSTOMER==========")
-      # print('''CARI BERDASARKAN: 
-      #    ID CUSTOMER/NAMA
-      #    ''')
-      # print("MASUKKAN ID CUSTOMER: ")
-      cari_nama_cust = input("MASUKKAN NAMA CUSTOMER: ")
-      cari_customer(cari_nama_cust)
+         print("Invalid input. Try again\n")
    
 
    
-   elif pilihan_4 == '3':
-      print("==========UBAH DATA CUSTOMER==========")
-      id_cust = input("MASUKKAN ID CUSTOMER: ")
-      nama_baru = input("MASUKKAN NAMA BARU: ")
-      alamat_baru = input("MASUKKAN ALAMAT BARU: ")
-      hp_baru = input("MASUKKAN NO. HP BARU: ")
-      ktp_baru = input("MASUKKAN NO. KTP BARU: ")
-      sim_baru = input("MASUKKAN NO. SIM BARU: ")
-      konfirmasi_4 = input("EDIT DATA CUSTOMER? Y/N: ")
-      if konfirmasi_4 == 'Y' or 'y':
-         update_customer(id_cust, nama_baru or None, alamat_baru or None, hp_baru or None, ktp_baru or None, sim_baru or None)
-      elif konfirmasi_4 == 'N' or 'n':
-         print("KEMBALI KE MENU UTAMA")
+   elif choose_cust == '4':
+      print("========== DELETE CUSTOMER DATA ==========")
+      index_cust = int(input("Enter customer's index: "))
+      del_choose= (input(f"Delete {index_cust} customer? Y/N: "))
+      if del_choose == 'Y' or 'y':
+         del customer_table[index_cust]
+         print("Deleted")
+      elif del_choose == 'N' or 'n':
+         print("Back to main menu")
       else:
-         print("MASUKKAN PILIHAN LAGI")
-   
-
-   
-   elif pilihan_4 == '4':
-      print("==========HAPUS DATA CUSTOMER==========")
-      index_cust = int(input("MASUKKAN INDEX CUSTOMER: "))
-      konfirmasi_4 = (input(f"HAPUS DATA CUSTOMER {index_cust}? Y/N: "))
-      if konfirmasi_4 == 'Y' or 'y':
-         del tabel_customer[index_cust]
-         print("TRANSAKSI BERHASIL")
-      elif konfirmasi_4 == 'N' or 'n':
-         print("KEMBALI KE MENU UTAMA")
-      else:
-         print("MASUKKAN PILIHAN LAGI")
+         print("Invalid input. Try again\n")
    
    
 
-   elif pilihan_4 == '0':
+   elif choose_cust == '0':
       menu()
    else:
-      print("MASUKKAN PILIHAN LAGI")
+      print("Invalid input. Try again\n")
 
 
 
 
 
 
-def data_mobil():
-   print("==========MENU DATA MOBIL==========")
-   print("1. TAMBAH DATA MOBIL")
-   print("2. CARI DATA MOBIL")
-   print("3. EDIT DATA MOBIL")
-   print("4. HAPUS DATA MOBIL")
+def car_data():
+   print("========== CAR DATA MENU ==========")
+   print("1. CREATE NEW CAR DATA")
+   print("2. SEARCH CAR BY PLATE")
+   print("3. EDIT CAR DATA")
+   print("4. DELETE CAR DATA")
    print("0. BACK TO MAIN MENU")
-   print("TABEL DATA MOBIL\n")
-   print('|Index\t| No.Polisi \t| Merek \t| Tipe \t\t| Transmisi \t| Harga \t| Status  |')
-   for i in range(len(tabel_mobil)):
-      print(f'|{i} \t| {tabel_mobil[i]['no_polisi']} \t| {tabel_mobil[i]['Merek']} \t| {tabel_mobil[i]['Tipe']} \t| {tabel_mobil[i]['Transmisi']}\t\t| {tabel_mobil[i]['Harga']} \t| {tabel_mobil[i]['status']}|')
-   pilihan_5 = input("MASUKKAN PILIHAN MENU: ")
+   print("\nCAR DATA TABLE\n")
+   print('|Index\t| Plate Numbers \t| Brand \t| Type \t\t| Price \t| Status  ')
+   for i in range(len(cars_table)):
+      print(f'|{i} \t| {cars_table[i]['plate_number']}| {cars_table[i]['brand']} \t| {cars_table[i]['type']} \t| {cars_table[i]['price']} \t| {cars_table[i]['status']}')
+   choice_car = input("Your choice: ")
    
    
-   if pilihan_5 == '1':
-      print("==========BUAT DATA MOBIL BARU==========")
-      no_polisi = input("NO. POLISI: ")
-      merek = input("MASUKKAN MEREK MOBIL: ")
-      tipe = input("MASUKKAN TIPE MOBIL: ")
-      transmisi = input("MASUKKAN TRANSMISI: ")
-      harga = input("MASUKKAN HARGA SEWA: ")
-      status = input("MASUKKAN KETERSEDIAAN MOBIL: ")
-      konfirmasi_5 = input("SUBMIT? Y/N: ")
-      if konfirmasi_5 == 'Y' or 'y':
-         tabel_mobil.append({
-            'no_polisi' : no_polisi,
-            'Merek' : merek,
-            'Tipe' : tipe,
-            'Transmisi' : transmisi,
-            'Harga' : harga,
-            'status' : status
-         })
-         print("DATA BERHASIL DIINPUT")
-      elif konfirmasi_5 == 'N' or 'n':
-         print("KEMBALI KE MENU UTAMA")
+   if choice_car == '1':
+      print("========== CREATE NEW CAR DATA ==========")
+      create_car(cars_table)
+
+
+   elif choice_car == '2':
+      print("========== SEARCH CAR BY PLATE==========")
+      search_by_plate = input("Enter plate number you want: ")
+      search_car(search_by_plate)
+
+
+   elif choice_car == '3':
+      print("========== EDIT CAR ==========")
+      plate_numb = input("Enter plate number: ")
+      new_brand = input("Enter new brand (ENTER to skip): ")
+      new_type = input("Enter new type (ENTER to skip): ")
+      new_price = input("Enter new price (ENTER to skip): ")
+      new_status = input("AVAILABLE / NOT AVAILABLE (ENTER to skip): ")
+      
+      confirm_edit_car = input("SUBMIT? Y/N: ")
+      if confirm_edit_car == 'Y' or 'y':
+         update_car(plate_numb, new_brand or None, new_type or None, new_price or None, new_status or None)
+      elif confirm_edit_car == 'N' or 'n':
+         print("Back to main menu\n")
       else:
-         print("MASUKKAN PILIHAN LAGI")
+         print("Invalid input. Try again\n")
 
 
-   elif pilihan_5 == '2':
-      print("==========CARI DATA MOBIL==========")
-      # print('''CARI BERDASARKAN: 
-      #    ID/MEREK/TIPE/PLAT/TRANSMISI/TAHUN/HARGA/KETERSEDIAAN
-      #    ''')
-      cari_no_polisi = input("MASUKKAN NO. POLISI: ")
-      cari_mobil(cari_no_polisi)
-
-
-   elif pilihan_5 == '3':
-      print("==========UBAH DATA MOBIL==========")
-      id_mobil = input("MASUKKAN NO. POLISI: ")
-      merek_baru = input("MASUKKAN MEREK(ENTER JIKA DIKOSONGKAN): ")
-      tipe_baru = input("MASUKKAN TIPE BARU: ")
-      transmisi_baru = input("MASUKKAN TRANSMISI BARU: ")
-      harga_baru = input("MASUKKAN HARGA BARU: ")
-      status_baru = input("TERSEDIA/TIDAK TERSEDIA: ")
-      konfirmasi_5 = input("EDIT DATA MOBIL? Y/N: ")
-      if konfirmasi_5 == 'Y' or 'y':
-         update_mobil(id_mobil, merek_baru or None, tipe_baru or None, transmisi_baru or None, harga_baru or None, status_baru or None)
-      elif konfirmasi_5 == 'N' or 'n':
-         print("KEMBALI KE MENU UTAMA")
+   elif choice_car == '4':
+      print("========== DELETE CAR DATA ==========")
+      car_idx = int(input("Enter car's index: "))
+      confirm_del_car = (input(f"Delete {car_idx} car? Y/N: "))
+      if confirm_del_car == 'Y' or 'y':
+         del cars_table[car_idx]
+         print("Deleted")
+      elif confirm_del_car == 'N' or 'n':
+         print("Back to main menu")
       else:
-         print("MASUKKAN PILIHAN LAGI")
+         print("Invalid input. Try again\n")
 
 
-   elif pilihan_5 == '4':
-      print("==========HAPUS DATA MOBIL==========")
-      index_mobil = int(input("MASUKKAN INDEX MOBIL: "))
-      konfirmasi_5 = (input(f"HAPUS DATA MOBIL {index_mobil}? Y/N: "))
-      if konfirmasi_5 == 'Y' or 'y':
-         del tabel_mobil[index_mobil]
-         print("DATA MOBIL BERHASIL DIHAPUS")
-      elif konfirmasi_5 == 'N' or 'n':
-         print("KEMBALI KE MENU UTAMA")
-      else:
-         print("MASUKKAN PILIHAN LAGI")
-
-
-   elif pilihan_5 == '0':
+   elif choice_car == '0':
       menu()
    else:
-      print("MASUKKAN PILIHAN LAGI")
+      print("Invalid input. Try again\n")
 
 if __name__ == "__main__":
    menu()
