@@ -217,13 +217,13 @@ def create_car(cars):
 # /==================== READ ====================/
 
 def search_customer(search_by_ID):
-    search_result = [i for i in customer_table if i['name'].lower() == search_by_ID.lower()]
+    search_result = [i for i in customer_table if i['customer_id'].lower() == search_by_ID.lower()]
     if not search_result:
         print("Customer not found", search_by_ID)
     else:
       print("| ID Customer \t| Customer Name \t| Address \t| Phone Number \t\t| ID Number \t| Driver's License")
-      for i in range(len(customer_table)):
-         print(f'| {customer_table[i]['customer_id']} \t| {customer_table[i]['name']} \t| {customer_table[i]['address']} \t| {customer_table[i]['phone']} \t| {customer_table[i]['KTP']}\t| {customer_table[i]['SIM']} |')
+      for i in search_result:
+         print(f'| {i['customer_id']} \t| {i['name']} \t| {i['address']} \t| {i['phone']} \t| {i['KTP']}\t| {i['SIM']} |')
 
 
 
@@ -234,8 +234,8 @@ def search_car(search_by_plate):
         print("Car not found", search_by_plate)
     else:
       print('| Plate Numbers \t| Brand \t| Type \t\t| Price \t| Status  ')
-      for i in range(len(cars_table)):
-         print(f'| {cars_table[i]['plate_number']} \t| {cars_table[i]['brand']} \t| {cars_table[i]['type']} \t| {cars_table[i]['price']} \t| {cars_table[i]['status']}')
+      for i in search_result:
+         print(f'| {i['plate_number']} \t| {i['brand']} \t| {i['type']} \t| {i['price']} \t| {i['status']}')
 
 
 
