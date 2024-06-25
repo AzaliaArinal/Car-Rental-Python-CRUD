@@ -279,6 +279,66 @@ def update_car(plate_numb, new_brand=None, new_type=None, new_price=None, new_st
 
 
 
+
+
+# /==================== DELETE ====================/
+
+def delete_customer():
+   while True:
+    try:
+        index_cust = int(input("Enter customer's index: "))
+        if index_cust < 0 or index_cust >= len(customer_table):
+            print("Invalid index. Please enter a valid index")
+            continue
+
+        del_choose = input(f"Delete customer at index {index_cust}? Y/N: ").strip().upper()
+        if del_choose == 'Y':
+            del customer_table[index_cust]
+            print("Customer deleted")
+            break
+        elif del_choose == 'N':
+            print("Back to main menu")
+            break
+        else:
+            print("Invalid input. Try again\n")
+    except ValueError:
+        print("Please enter a valid integer for the index")
+    except IndexError:
+        print("Please enter a valid index")
+
+
+
+
+
+
+def delete_car():
+   while True:
+    try:
+        index_cust = int(input("Enter customer's index: "))
+        if index_cust < 0 or index_cust >= len(customer_table):
+            print("Invalid index. Please enter a valid index")
+            continue
+        
+        del_choose = input(f"Delete customer at index {index_cust}? Y/N: ").strip().upper()
+        if del_choose == 'Y':
+            del customer_table[index_cust]
+            print("Customer deleted")
+            break
+        elif del_choose == 'N':
+            print("Back to main menu")
+            break
+        else:
+            print("Invalid input. Try again\n")
+    except ValueError:
+        print("Please enter a valid integer for the index")
+    except IndexError:
+        print("Please enter a valid index")
+
+
+
+
+
+
 # /==================== TRANSACTION ====================/
 def rent_transaction():
    rent_id = input("Enter new rent ID: ")
@@ -517,17 +577,7 @@ def customer_data():
    
    elif choose_cust == '4':
       print("========== DELETE CUSTOMER DATA ==========")
-      index_cust = int(input("Enter customer's index: "))
-      del_choose= (input(f"Delete {index_cust} customer? Y/N: "))
-      if del_choose == 'Y' or 'y':
-         del customer_table[index_cust]
-         print("Deleted")
-      elif del_choose == 'N' or 'n':
-         print("Back to main menu")
-      else:
-         print("Invalid input. Try again\n")
-   
-   
+      delete_customer()
 
    elif choose_cust == '0':
       menu()
@@ -583,16 +633,7 @@ def car_data():
 
    elif choice_car == '4':
       print("========== DELETE CAR DATA ==========")
-      car_idx = int(input("Enter car's index: "))
-      confirm_del_car = (input(f"Delete {car_idx} car? Y/N: "))
-      if confirm_del_car == 'Y' or 'y':
-         del cars_table[car_idx]
-         print("Deleted")
-      elif confirm_del_car == 'N' or 'n':
-         print("Back to main menu")
-      else:
-         print("Invalid input. Try again\n")
-
+      delete_car()
 
    elif choice_car == '0':
       menu()
