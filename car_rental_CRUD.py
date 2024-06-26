@@ -9,8 +9,8 @@ from datetime import datetime
 
 cars_table = [
    {
-      'plate_number' : 'L 1 A',
-      'brand' : 'FIAT  ',
+      'plate_number' : 'L 21 A',
+      'brand' : 'FIAT MOBILE',
       'type' :'FIAT 500',
       'price' : 500000,
       'status' : 'AVAILABLE'
@@ -130,17 +130,6 @@ def create_customer(customers):
             print("Driver's license number must be an integer. Try again")
             continue
       
-      if any(
-            customer['name'] == name and
-            customer['address'] == address and
-            customer['phone'] == int(phone_number) and
-            customer['KTP'] == int(id_card_number) and
-            int(customer['SIM']) == int(drivers_license)
-            for customer in customer_table
-        ):
-            print("Customer with the same details already exists.")
-            continue
-      
       cust_confirm = input("SUBMIT? Y/N: ")
       if cust_confirm == 'Y' or 'y':
          customer_table.append({
@@ -223,7 +212,7 @@ def search_customer(search_by_ID):
     else:
       print("| ID Customer \t| Customer Name \t| Address \t| Phone Number \t\t| ID Number \t| Driver's License")
       for i in search_result:
-         print(f'| {i['customer_id']} \t| {i['name']} \t| {i['address']} \t| {i['phone']} \t| {i['KTP']}\t| {i['SIM']} |')
+         print(f'| {i['customer_id']} \t| {i['name']} \t| {i['address']} \t| {i['phone']} \t| {i['KTP']}\t| {i['SIM']}')
 
 
 
@@ -233,9 +222,9 @@ def search_car(search_by_plate):
     if not search_result:
         print("Car not found", search_by_plate)
     else:
-      print('| Plate Numbers \t| Brand \t| Type \t\t| Price \t| Status  ')
+      print('| Plate Numbers | Brand \t| Type \t\t| Price \t| Status  ')
       for i in search_result:
-         print(f'| {i['plate_number']} \t| {i['brand']} \t| {i['type']} \t| {i['price']} \t| {i['status']}')
+         print(f'| {i['plate_number']}\t| {i['brand']} \t| {i['type']} \t| {i['price']} \t| {i['status']}')
 
 
 
@@ -278,64 +267,47 @@ def update_car(plate_numb, new_brand=None, new_type=None, new_price=None, new_st
 
 
 
-
-
-
 # /==================== DELETE ====================/
-
-def delete_customer():
-   while True:
-    try:
-        index_cust = int(input("Enter customer's index: "))
-        if index_cust < 0 or index_cust >= len(customer_table):
-            print("Invalid index. Please enter a valid index")
-            continue
-
-        del_choose = input(f"Delete customer at index {index_cust}? Y/N: ").strip().upper()
-        if del_choose == 'Y':
-            del customer_table[index_cust]
-            print("Customer deleted")
-            break
-        elif del_choose == 'N':
-            print("Back to main menu")
-            break
-        else:
-            print("Invalid input. Try again\n")
-    except ValueError:
-        print("Please enter a valid integer for the index")
-    except IndexError:
-        print("Please enter a valid index")
+def delete_customer(car_table):
+   try:
+      index_cust = int(input("Enter customer's index: "))
+      if index_cust < 0 or index_cust >=len(customer_table):
+         print("Index is not valid")
+         return
+   except ValueError:
+         print("Index is not valid")
+         return
+   
+   del_choose= (input(f"Delete customer {index_cust}? Y/N: "))
+   if del_choose == 'Y' or 'y':
+      del customer_table[index_cust]
+      print("Deleted")
+   elif del_choose == 'N' or 'n':
+      print("Back to main menu")
+   else:
+      print("Invalid input. Try again\n")
 
 
 
 
-
-
-def delete_car():
-   while True:
-    try:
-        index_cust = int(input("Enter customer's index: "))
-        if index_cust < 0 or index_cust >= len(customer_table):
-            print("Invalid index. Please enter a valid index")
-            continue
-        
-        del_choose = input(f"Delete customer at index {index_cust}? Y/N: ").strip().upper()
-        if del_choose == 'Y':
-            del customer_table[index_cust]
-            print("Customer deleted")
-            break
-        elif del_choose == 'N':
-            print("Back to main menu")
-            break
-        else:
-            print("Invalid input. Try again\n")
-    except ValueError:
-        print("Please enter a valid integer for the index")
-    except IndexError:
-        print("Please enter a valid index")
-
-
-
+def delete_car(cars_table):
+   try:
+      car_idx = int(input("Enter car index: "))
+      if car_idx < 0 or car_idx >=len(cars_table):
+         print("Invalid car index")
+         return
+   except ValueError:
+      print("Invalid input")
+      return
+   
+   confirm_del_car = (input(f"Delete car {car_idx} ? Y/N: "))
+   if confirm_del_car == 'Y' or 'y':
+      del cars_table[car_idx]
+      print("Car data deleted")
+   elif confirm_del_car == 'N' or 'n':
+      print("Back to main menu")
+   else:
+      print("Invalid input. Try again\n")
 
 
 
@@ -385,6 +357,8 @@ def rent_transaction():
    rental_days = (end_date - start_date).days + 1
    total_amount = rental_days * i['price']
 
+   print(f"Total Amount: {total_amount}")
+
    confirm_rent = input("Submit transaction? Y/N: ")
    if confirm_rent == 'Y' or 'y':
       i['status'] = 'NOT AVAILABLE'
@@ -410,7 +384,7 @@ def rent_transaction():
 late_fee = 200000
 
 def calculate_late_fee(late_days, daily_rent):
-    daily_penalty = daily_rent * 0.1  # Assuming 10% of the daily rent as the penalty per day
+    daily_penalty = daily_rent * late_fee
     return late_days * daily_penalty
 
 def return_transaction():
@@ -442,9 +416,12 @@ def return_transaction():
          else:
             print("Invadil date format. Try again")
 
-         if late_return_date > return_date:
-            late_days = (late_return_date - return_date).days
-            late_fee_count = late_days * late_fee
+      if late_return_date > return_date:
+         late_days = (late_return_date - return_date).days
+         late_fee_count = calculate_late_fee(late_days, transaction['total'])
+
+   # total_amount_late = transaction['total'] + late_fee_count
+   # print(f'Total Amount: {total_amount_late}')
 
    confirm_return = input("Submit transaction? Y/N: ")
    if confirm_return == 'Y' or 'y':
@@ -468,9 +445,9 @@ def show_transaction_table():
       print("\nThere is no transaction data\n")
    else:
       print("========== TRANSACTION TABLE ==========\n")
-      print('|Rent ID\t| Plate Number \t| Customer ID \t| Start Date \t| End Date \t| Days  | Late Fee | Total Amount')
+      print('|Rent ID\t| Plate Number \t| Customer ID \t| Start Date \t| End Date \t| Days  | Total Amount')
       for i in range(len(transaction_table)):
-         print(f'| {transaction_table[i]['rent_id']} \t| {transaction_table[i]['plate_number']} \t| {transaction_table[i]['customer_id']} \t| {transaction_table[i]['start_rent_count']}\t| {transaction_table[i]['end_rent_count']}\t| {transaction_table[i]['rent_days_count']}\t| {transaction_table[i]['late_fee']}\t\t| {transaction_table[i]['total']}')
+         print(f'| {transaction_table[i]['rent_id']} \t| {transaction_table[i]['plate_number']} \t| {transaction_table[i]['customer_id']} \t| {transaction_table[i]['start_rent_count']}\t| {transaction_table[i]['end_rent_count']}\t| {transaction_table[i]['rent_days_count']}\t| {transaction_table[i]['total']}')
 
 
 
@@ -479,7 +456,7 @@ def show_transaction_table():
 # /==================== MENU ====================/
 def menu():
    while True:
-      print("========== MAIN MENU ==========")
+      print("\n========== MAIN MENU ==========")
       print("1. TRANSACTION")
       print("2. CUSTOMER DATA")
       print("3. CAR DATA")
@@ -516,12 +493,13 @@ def transaction():
          print("\n========== RENT TRANSACTION ==========")
          rent_transaction()
       
-      if choose_trans == '2':
+      elif choose_trans == '2':
          print("\n========== RETURN TRANSACTION ==========")
          return_transaction()
       
       elif choose_trans == '0':
          menu()
+         break
       else:
          print("Invalid input. Try again\n")
    
@@ -531,7 +509,7 @@ def transaction():
 
 
 def customer_data():
-   print("========== CUSTOMER DATA MENU ==========")
+   print("\n========== CUSTOMER DATA MENU ==========")
    print("1. ADD NEW CUSTOMER")
    print("2. SEARCH CUSTOMER BY ID")
    print("3. EDIT CUSTOMER DATA")
@@ -545,20 +523,20 @@ def customer_data():
    
    
    if choose_cust == '1':
-      print("========== ADD NEW CUSTOMER ==========")
+      print("\n========== ADD NEW CUSTOMER ==========")
       create_customer(customer_table)
    
    
 
    elif choose_cust == '2':
-      print("========== SEARCH CUSTOMER BY ID ==========")
+      print("\n========== SEARCH CUSTOMER BY ID ==========")
       search_by_ID = input("Enter customer ID: ")
       search_customer(search_by_ID)
    
 
    
    elif choose_cust == '3':
-      print("========== EDIT CUSTOMER DATA ==========")
+      print("\n========== EDIT CUSTOMER DATA ==========")
       cust_id = input("Enter customer's ID: ")
       new_name = input("Enter new name (ENTER to skip): ")
       new_address = input("Enter new address (ENTER to skip): ")
@@ -572,12 +550,12 @@ def customer_data():
          print("Back to main menu")
       else:
          print("Invalid input. Try again\n")
-   
 
    
    elif choose_cust == '4':
-      print("========== DELETE CUSTOMER DATA ==========")
-      delete_customer()
+      print("\n========== DELETE CUSTOMER DATA ==========")
+      delete_customer(customer_table)
+
 
    elif choose_cust == '0':
       menu()
@@ -590,32 +568,32 @@ def customer_data():
 
 
 def car_data():
-   print("========== CAR DATA MENU ==========")
+   print("\n========== CAR DATA MENU ==========")
    print("1. CREATE NEW CAR DATA")
    print("2. SEARCH CAR BY PLATE")
    print("3. EDIT CAR DATA")
    print("4. DELETE CAR DATA")
    print("0. BACK TO MAIN MENU")
-   print("\nCAR DATA TABLE\n")
-   print('|Index\t| Plate Numbers \t| Brand \t| Type \t\t| Price \t| Status  ')
+   print("\n========== CAR DATA TABLE ==========\n")
+   print('|Index\t| Plate Numbers\t| Brand \t| Type \t\t| Price \t| Status  ')
    for i in range(len(cars_table)):
-      print(f'|{i} \t| {cars_table[i]['plate_number']}| {cars_table[i]['brand']} \t| {cars_table[i]['type']} \t| {cars_table[i]['price']} \t| {cars_table[i]['status']}')
+      print(f'|{i} \t| {cars_table[i]['plate_number']}\t| {cars_table[i]['brand']} \t| {cars_table[i]['type']} \t| {cars_table[i]['price']} \t| {cars_table[i]['status']}')
    choice_car = input("Your choice: ")
    
    
    if choice_car == '1':
-      print("========== CREATE NEW CAR DATA ==========")
+      print("\n========== CREATE NEW CAR DATA ==========")
       create_car(cars_table)
 
 
    elif choice_car == '2':
-      print("========== SEARCH CAR BY PLATE==========")
+      print("\n========== SEARCH CAR BY PLATE==========")
       search_by_plate = input("Enter plate number you want: ")
       search_car(search_by_plate)
 
 
    elif choice_car == '3':
-      print("========== EDIT CAR ==========")
+      print("\n========== EDIT CAR ==========")
       plate_numb = input("Enter plate number: ")
       new_brand = input("Enter new brand (ENTER to skip): ")
       new_type = input("Enter new type (ENTER to skip): ")
@@ -632,8 +610,9 @@ def car_data():
 
 
    elif choice_car == '4':
-      print("========== DELETE CAR DATA ==========")
-      delete_car()
+      print("\n========== DELETE CAR DATA ==========")
+      delete_car(cars_table)
+
 
    elif choice_car == '0':
       menu()
